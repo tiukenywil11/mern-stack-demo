@@ -4,7 +4,8 @@
 const express = require('express');
 // intialize dotenv: allows use of environmental variables
 const dotenv = require('dotenv').config();
-const port = 5000;
+// initialize port to use the environment variable PORT, or defauts to 5000
+const port = process.env.PORT || 5000;
 
 // initialize app object with express methods
 const app = express();
