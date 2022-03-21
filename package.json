@@ -1,0 +1,30 @@
+{
+  "name": "mern-stack-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tiukenywil11/mern-stack-demo.git"
+  },
+  "author": "Kenywil Tiu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tiukenywil11/mern-stack-demo/issues"
+  },
+  "homepage": "https://github.com/tiukenywil11/mern-stack-demo#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "i": "^0.3.7",
+    "mongoose": "^6.2.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
