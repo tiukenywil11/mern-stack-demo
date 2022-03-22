@@ -10,5 +10,10 @@ const port = process.env.PORT || 5000;
 // initialize app object with express methods
 const app = express();
 
+// create a get route
+app.get('/api/goals', (req, res) => {
+    res.status(200).json({message: 'Get goals'});
+});
+
 // bring up express server
 app.listen(port, () => console.log(`Server started on port ${port}`));
