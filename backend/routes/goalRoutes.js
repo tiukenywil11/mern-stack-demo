@@ -4,13 +4,14 @@
 const express = require('express');
 // initialize router: express module for routing
 const router = express.Router();
+// add import from goalController.js
+const { getGoals } = require('../controllers/goalController')
+
 
 // create a get route
 // removed '/api/goals' from url path, because this will remain in server.js
 // changed 'app.get' to 'router.get' because router is the module being exported
-router.get('/', (req, res) => {
-    res.status(200).json({message: 'Get goals'});
-});
+router.get('/', getGoals);
 
 // create a post route to create an entry
 router.post('/', (req, res) => {
