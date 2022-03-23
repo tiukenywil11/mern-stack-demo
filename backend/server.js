@@ -4,6 +4,8 @@
 const express = require('express');
 // intialize dotenv: allows use of environmental variables
 const dotenv = require('dotenv').config();
+// import errorHandler, from errorMiddleware
+const { errorHandler } = require('./middleware/errorMiddleware');
 // initialize port to use the environment variable PORT, or defauts to 5000
 const port = process.env.PORT || 5000;
 
@@ -24,6 +26,9 @@ app.use(express.urlencoded({ extended: false }));
 
 // use goalRoutes.js on server.js
 app.use('/api/goals', require('./routes/goalRoutes'));
+
+// add middleware to handle errors
+app.use(errorHandler);
 
 // bring up express server
 app.listen(port, () => console.log(`Server started on port ${port}`));

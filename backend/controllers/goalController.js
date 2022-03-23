@@ -12,9 +12,19 @@ const getGoals = (req, res) => {
 // @access Private
 const setGoal = (req, res) => {
 
-    // checks if set is accepting values
+    /*
+    -- checks if set is accepting values
     console.log(req.body);
-    
+    */
+
+    // checks if body passed is null
+    if(!req.body.text) {
+        // set the status of response to 400 (empty)
+        res.status(400);
+        // use expressjs error handling
+        throw new Error('Please add a text field');
+    }
+
     res.status(200).json({message: 'Set goal'});
 }
 
