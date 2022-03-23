@@ -2,12 +2,19 @@
 
 // initialize expressjs: backend framework
 const express = require('express');
+// initialize colors: adds colors to log
+const colors = require('colors');
 // intialize dotenv: allows use of environmental variables
 const dotenv = require('dotenv').config();
 // import errorHandler, from errorMiddleware
 const { errorHandler } = require('./middleware/errorMiddleware');
+// import db.js to connect to mongodb
+const connectDB = require('./config/db')
 // initialize port to use the environment variable PORT, or defauts to 5000
 const port = process.env.PORT || 5000;
+
+//connect to mongodb
+connectDB();
 
 // initialize app object with express methods
 const app = express();
