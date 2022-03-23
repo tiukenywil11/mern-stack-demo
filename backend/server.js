@@ -17,6 +17,11 @@ app.get('/api/goals', (req, res) => {
 });
 */
 
+// add a middleware to read raw json
+app.use(express.json());
+// add a middleware to read url encoded
+app.use(express.urlencoded({ extended: false }));
+
 // use goalRoutes.js on server.js
 app.use('/api/goals', require('./routes/goalRoutes'));
 

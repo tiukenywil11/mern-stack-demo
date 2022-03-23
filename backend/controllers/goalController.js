@@ -11,6 +11,10 @@ const getGoals = (req, res) => {
 // @route SET /api/goals
 // @access Private
 const setGoal = (req, res) => {
+
+    // checks if set is accepting values
+    console.log(req.body);
+    
     res.status(200).json({message: 'Set goal'});
 }
 
