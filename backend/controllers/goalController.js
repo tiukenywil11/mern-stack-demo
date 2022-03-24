@@ -80,7 +80,21 @@ const updateGoal = asyncHandler (
 // @access Private
 const deleteGoal = asyncHandler (
     async (req, res) => {
-        res.status(200).json({message: `Delete goal ${req.params.id}`});
+
+                // get single goal using id
+                const goal = await Goal.findById(req.params.id)
+
+                // create conditional to check if goal exists in mongodb
+                if(!goal) {
+                    res.status(400)
+                    throw new Error('Goal not found')
+                }
+        
+                // call remove function to delete goal
+                await goal.remove();
+
+                // return a message, indicating success
+                res.status(200).json({id: req.params.id});
     }
 )
 
