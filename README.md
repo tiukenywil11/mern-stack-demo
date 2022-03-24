@@ -1,6 +1,6 @@
 # MERN stack demo
 
-## Part 1: ExpressJS APIs, and mongodbd instance
+## Part 1: ExpressJS APIs, and MongoDB instance
 
 Database:  
 Check 'database' directory for instructions on how to deploy db.  
