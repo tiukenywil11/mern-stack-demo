@@ -51,7 +51,27 @@ const setGoal = asyncHandler (
 // @access Private
 const updateGoal = asyncHandler (
     async (req, res) => {
-        res.status(200).json({message: `Update goal ${req.params.id}`});
+
+        // get single goal using id
+        const goal = await Goal.findById(req.params.id)
+
+        // create conditional to check if goal exists in mongodb
+        if(!goal) {
+            res.status(400)
+            throw new Error('Goal not found')
+        }
+
+        // create a variable with updated values, to pass to mongodb
+        // findByIdAndUpdate takes three parametes, id of object that will be updated, the updated object values, and update options
+        // new: true option creates a new entry, if id does not exist
+        const updatedGoal = await Goal.findByIdAndUpdate(
+            req.params.id, 
+            req.body, 
+            {new: true}
+        )
+
+        // return a message, indicating success
+        res.status(200).json(updatedGoal);
     }
 )
 
