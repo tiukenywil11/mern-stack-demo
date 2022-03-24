@@ -51,6 +51,20 @@ use mernapp
 mernapp.createCollection('goals')
 ```
 
+3. Create admin user
+
+```bash
+db.createUser( 
+    { 
+        user: "admin",
+        pwd: "password",
+        roles: [ 
+            "dbOwner"
+        ]
+    } 
+)
+```
+
 ## Stop mongodb using the following command
 ```bash
 docker-compose up -d

@@ -3,13 +3,18 @@
 // adding asyncHandler to handle async related errors
 // wrap async functions with this library
 const asyncHandler = require('express-async-handler');
+// import goals model, has mongoose modules for goals
+const Goal = require('../models/goalModel');
 
 // @desc Get goals
 // @route GET /api/goals
 // @access Private
 const getGoals = asyncHandler (
     async (req, res) => {
-        res.status(200).json({message: 'Get goals'});
+        // get the list of goals
+        const goals = await Goal.find();
+        // return a message, indicating success
+        res.status(200).json(goals);
     }
 )
 
