@@ -37,7 +37,12 @@ const setGoal = asyncHandler (
             throw new Error('Please add a text field');
         }
 
-        res.status(200).json({message: 'Set goal'});
+        // create a goal entry, and pass it to the database
+        const goal = await Goal.create({
+            text: req.body.text
+        })
+        // return a message, indicating success
+        res.status(200).json(goal);
     }
 )
 
