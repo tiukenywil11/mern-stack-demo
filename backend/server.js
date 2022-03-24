@@ -33,6 +33,8 @@ app.use(express.urlencoded({ extended: false }));
 
 // use goalRoutes.js on server.js
 app.use('/api/goals', require('./routes/goalRoutes'));
+// use userRoutes.js on server.js
+app.use('/api/users', require('./routes/userRoutes'));
 
 // add middleware to handle errors
 app.use(errorHandler);
