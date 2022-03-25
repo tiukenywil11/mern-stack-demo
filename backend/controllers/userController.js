@@ -28,12 +28,35 @@ const registerUser = asyncHandler(
         const userExists = await User.findOne({ email})
 
         // validates if user is already existing
-        if(!userExists) {
+        if(userExists) {
             res.status(400)
-            throw new Error('User already exists')
+            throw new Error('User already exists');
         }
 
-        res.json({ message: 'Register User' })
+        // generate salt to help has password by using bcrypt method genSalt, passing ten as the default parameter
+        const salt = await bcrypt.genSalt(10);
+        // generate a hashed password by using bcrypt method hash, and passing the original password, and the salt
+        const hashedPassword = await bcrypt.hash(password, salt)
+
+        // create a user, passing value hashedPassword for the password key
+        const user = await User.create({
+            name,
+            email,
+            password: hashedPassword
+        })
+
+        // checks if user is exists, and is generated
+        // id is automatically generated for the user
+        if(user) {
+            res.status(201).json({
+                _id: user.id,
+                name: user.name,
+                email: user.email
+            });
+        } else {
+            res.status(400)
+            throw new Error('Invalid user data')
+        }
     }
 )
 
