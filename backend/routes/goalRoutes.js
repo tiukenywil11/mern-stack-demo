@@ -6,13 +6,15 @@ const express = require('express');
 const router = express.Router();
 // add import from goalController.js
 const { getGoals, setGoal, updateGoal, deleteGoal } = require('../controllers/goalController')
+// add protect function from authMiddleware.js to protect routes
+const { protect } = require('../middleware/authMiddleware');
 
 // clean up routes with the same url
 // for '/api/goals' url, chain get and post requests
-router.route('/').get(getGoals).post(setGoal)
+router.route('/').get(protect, getGoals).post(protect, setGoal)
 
 // for '/api/goals/:id' url, chain put and delete requests
-router.route('/:id').delete(deleteGoal).put(updateGoal)
+router.route('/:id').delete(protect, deleteGoal).put(protect, updateGoal)
 
 /* Replaced with cleaner routes
 -- create a get route
