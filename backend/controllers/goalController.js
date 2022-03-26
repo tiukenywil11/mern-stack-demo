@@ -40,8 +40,10 @@ const setGoal = asyncHandler (
 
         // create a goal entry, and pass it to the database
         const goal = await Goal.create({
-            text: req.body.text
+            text: req.body.text,
+            user: req.user.id
         })
+
         // return a message, indicating success
         res.status(200).json(goal);
     }
