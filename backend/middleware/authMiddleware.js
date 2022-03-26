@@ -45,15 +45,16 @@ const protect = asyncHandler(
                 res.status(401);
                 throw new Error('Not authorized');
             }
-
-            // if the token does not exist at all, return an error message
-            if(!token) {
-
-                res.status(401);
-                throw new Error('Not authorized, no token');
-
-            }
         }
+        
+        // if the token does not exist at all, return an error message
+        if(!token) {
+
+            res.status(401);
+            throw new Error('Not authorized, no token');
+
+        }
+        
     }
 )
 

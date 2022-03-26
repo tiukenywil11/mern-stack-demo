@@ -94,7 +94,18 @@ const loginUser = asyncHandler(
 // @access Public
 const getMe = asyncHandler(
     async (req, res) => {
-        res.json({ message: 'User data display' })
+
+        // destructure id, name, and email
+        const { _id, name, email } = await User.findById(req.user.id);
+
+        // return logged in user's info
+        // uses the id embedded in the middleware to return user info
+        res.status(200).json({
+            id: _id,
+            name,
+            email,
+        })
+
     }
 )
 
