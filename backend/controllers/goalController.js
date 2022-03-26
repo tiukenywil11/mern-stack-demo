@@ -12,7 +12,8 @@ const Goal = require('../models/goalModel');
 const getGoals = asyncHandler (
     async (req, res) => {
         // get the list of goals
-        const goals = await Goal.find();
+        // filter what user can see based on authorization id passed in the middleware
+        const goals = await Goal.find({ user: req.user.id });
         // return a message, indicating success
         res.status(200).json(goals);
     }
