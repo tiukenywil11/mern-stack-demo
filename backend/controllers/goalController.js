@@ -5,6 +5,8 @@
 const asyncHandler = require('express-async-handler');
 // import goals model, has mongoose modules for goals
 const Goal = require('../models/goalModel');
+// import user model, has mongoose modules for users
+const User = require('../models/userModel');
 
 // @desc Get goals
 // @route GET /api/goals
@@ -62,6 +64,23 @@ const updateGoal = asyncHandler (
         if(!goal) {
             res.status(400)
             throw new Error('Goal not found')
+        }
+
+        // get logged in user details
+        const user = await User.findById(req.user.id)
+
+        // check if user exists
+        if(!user) {
+            res.status(401)
+            throw new Error('User not found')
+        }
+
+        // check if user is authorized to update
+        // goal.user is the user attached to the goal in the database
+        // user.id is the logged in user
+        if(goal.user.toString() !== user.id) {
+            res.status(401)
+            throw new Error('User not authorized')
         }
 
         // create a variable with updated values, to pass to mongodb
