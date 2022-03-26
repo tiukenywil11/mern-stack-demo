@@ -48,7 +48,7 @@ use mernapp
 2. Create collections
 
 ```bash
-mernapp.createCollection('goals')
+db.createCollection('goals')
 ```
 
 3. Create admin user
