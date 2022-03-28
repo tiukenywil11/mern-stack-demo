@@ -18,6 +18,7 @@ const initialState = {
 }
 
 // create an async thunk function to register user
+// thunk function delays the evaluation of a value
 // takes two arguements, first is string with the action, and the second is an async function
 export const register = createAsyncThunk('auth/register', 
     async (user, thunkAPI) => {
@@ -36,6 +37,13 @@ export const register = createAsyncThunk('auth/register',
                 return thunkAPI.rejectWithValue(message);
     
         }
+    }
+)
+
+// create an async thunk function to logout user
+export const logout = createAsyncThunk('auth/logout', 
+    async () => {
+        await authService.logout();
     }
 )
 
@@ -74,6 +82,10 @@ export const authSlice = createSlice({
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload
+                state.user = null
+            })
+            // if logout is fulfilled remove user 
+            .addCase(logout.fulfilled, (state) => {
                 state.user = null
             })
     }
