@@ -20,6 +20,7 @@ function Register() {
   const onChange = (e) => {
     // calling setFormData, passing an object
     // '...prevState' gets all values and attributes of the previous variable
+    // get key via the 'name' variable [e.target.name]
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
