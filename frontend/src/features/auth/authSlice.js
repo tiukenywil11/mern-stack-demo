@@ -3,6 +3,8 @@
 // this will handle register, login, an logout states
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+// import from authService.js
+import authService from './authService';
 // get user from localStorage
 const user = JSON.parse(localStorage.getItem('user'));
 
@@ -31,7 +33,7 @@ export const register = createAsyncThunk('auth/register',
                 error.response.data.message) ||
             error.message || 
             error.toString()
-                return thunkAPII.rejectWithValue(message);
+                return thunkAPI.rejectWithValue(message);
     
         }
     }

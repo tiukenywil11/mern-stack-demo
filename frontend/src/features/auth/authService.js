@@ -10,7 +10,7 @@ const API_URL = '/api/users'
 const register = async (userData) => {
 
     // create variable to keep the response from http request
-    const response = await post(API_URL, userData)
+    const response = await axios.post(API_URL, userData)
 
     // checks if response is not empty
     if(response.data) {
@@ -21,6 +21,10 @@ const register = async (userData) => {
     // return data from http request
     return response.data;
 
+}
+
+const authService = {
+    register,
 }
 
 // export authService class
