@@ -53,7 +53,30 @@ export const authSlice = createSlice({
             state.message = ''
         }
     },
-    extraReducers: () => {}
+    // for the extra reducers, add special reducers to track custom cases
+    extraReducers: (builder) => {
+        builder
+            // if register is pending, change is loading state to true
+            .addCase(register.pending, (state) => {
+                state.isLoading = true
+            })
+            // if register is fulfilled, get parameters state and action
+            // change flags and return the user payload to the register function inside 'try'
+            .addCase(register.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.user = action.payload
+            })
+            // if register is fulfilled, get parameters state and action
+            // change flags and return the message payload to the register function inside 'catch'
+            // change the user state to null
+            .addCase(register.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+                state.user = null
+            })
+    }
 })
 
 // export reset reducer function to be used on any components
