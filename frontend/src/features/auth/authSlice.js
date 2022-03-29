@@ -106,6 +106,26 @@ export const authSlice = createSlice({
                 state.message = action.payload
                 state.user = null
             })
+            // if login is pending, change is loading state to true
+            .addCase(login.pending, (state) => {
+                state.isLoading = true
+            })
+            // if login is fulfilled, get parameters state and action
+            // change flags and return the user payload to the register function inside 'try'
+            .addCase(login.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.user = action.payload
+            })
+            // if login is fulfilled, get parameters state and action
+            // change flags and return the message payload to the register function inside 'catch'
+            // change the user state to null
+            .addCase(login.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+                state.user = null
+            })
             // if logout is fulfilled remove user 
             .addCase(logout.fulfilled, (state) => {
                 state.user = null
