@@ -40,6 +40,27 @@ export const register = createAsyncThunk('auth/register',
     }
 )
 
+// create an async thunk function to login user
+export const login = createAsyncThunk('auth/login', 
+    async (user, thunkAPI) => {
+        try {
+            // return a function from authService
+            return await authService.login(user)
+        } catch (error) {
+            
+            // returns a message upon error, checks all location if message exists, or if only exist in error.message, or on error
+            const message = 
+            (error.response && 
+                error.response.data && 
+                error.response.data.message) ||
+            error.message || 
+            error.toString()
+                return thunkAPI.rejectWithValue(message);
+    
+        }
+    }
+)
+
 // create an async thunk function to logout user
 export const logout = createAsyncThunk('auth/logout', 
     async () => {
@@ -62,6 +83,7 @@ export const authSlice = createSlice({
         }
     },
     // for the extra reducers, add special reducers to track custom cases
+    // pending, fulfilled, rejected are returned by createAsyncThunk
     extraReducers: (builder) => {
         builder
             // if register is pending, change is loading state to true

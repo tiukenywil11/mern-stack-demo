@@ -23,6 +23,23 @@ const register = async (userData) => {
 
 }
 
+// function to login server via http call
+const login = async (userData) => {
+
+    // create variable to keep the response from http request
+    const response = await axios.post(API_URL + 'login', userData)
+
+    // checks if response is not empty
+    if(response.data) {
+        // set local storage with item called user, and change it to string format
+        localStorage.setItem('user', JSON.stringify(response.data));
+    }
+
+    // return data from http request
+    return response.data;
+
+}
+
 // function to logout user
 const logout = () => {
     localStorage.removeItem('user');
@@ -30,7 +47,8 @@ const logout = () => {
 
 const authService = {
     register,
-    logout
+    logout,
+    login
 }
 
 // export authService class
