@@ -4,7 +4,7 @@
 import axios from 'axios';
 
 // initialize API URL with base path
-const API_URL = '/api/users'
+const API_URL = '/api/users/'
 
 // function to register server via http call
 const register = async (userData) => {
