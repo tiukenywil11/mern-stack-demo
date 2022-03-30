@@ -3,6 +3,9 @@
 // this will handle create, read, update, delete for goal objects
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+// import from goalService.js
+import goalService from './goalService';
+
 // initialize state of authentication
 const initialState = {
     goals: null,
@@ -11,6 +14,30 @@ const initialState = {
     isLoding: false,
     message: ''
 }
+
+// create an async thunk function to create goal
+export const createGoal  = createAsyncThunk('goals/create', 
+    async (goalData, thunkAPI) => {
+        try {
+            // use thunkAPI to get the state of auth and the valid authentication token
+            // this is added because create goal is a protected API, and requires an authentication token
+            const token = thunkAPI.getState().auth.user.token
+            // return a function from authService
+            return await goalService.createGoal(goalData, token)
+        } catch (error) {
+            
+            // returns a message upon error, checks all location if message exists, or if only exist in error.message, or on error
+            const message = 
+            (error.response && 
+                error.response.data && 
+                error.response.data.message) ||
+            error.message || 
+            error.toString()
+                return thunkAPI.rejectWithValue(message);
+    
+        }
+    }
+)
 
 // create redux slice, a collection of reducer logic and actions for a feature in the app.
 export const goalSlice = createSlice({

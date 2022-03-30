@@ -3,7 +3,7 @@ import { useState } from 'react'
 // import from react-redux
 import { useSelector, useDispatch } from 'react-redux'
 // import from goalSlice.js
-// import { createGoal } from '../features/goals/goalSlice'
+import { createGoal } from '../features/goals/goalSlice'
 
 function GoalForm() {
 
@@ -19,7 +19,7 @@ function GoalForm() {
     e.preventDedault();
 
     // run the async thunk api function from goalSlice.js, and pass the goal text
-    // dispatch(createGoal({text}));
+    dispatch(createGoal({text}));
     // reset fields after goal is created
     setText('');
   }
