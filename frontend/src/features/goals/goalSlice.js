@@ -8,10 +8,10 @@ import goalService from './goalService';
 
 // initialize state of authentication
 const initialState = {
-    goals: null,
+    goals: [],
     isError: false,
     isSuccess: false,
-    isLoding: false,
+    isLoading: false,
     message: ''
 }
 
@@ -46,6 +46,27 @@ export const goalSlice = createSlice({
     reducers: {
         // this will be set back to initiale state unlike users, because the user object needs to persist
         reset: (state) => initialState
+    },
+    extraReducers: (builder) => {
+        builder
+            // if createGoal is pending, change is loading state to true
+            .addCase(createGoal.pending, (state) => {
+                state.isLoading = true
+            })
+            // if createGoal is fulfilled, get parameters state and action
+            // change flags and return the user payload to the createGoal function inside 'try'            .addCase(createGoal.pending, (state) => {
+            .addCase(createGoal.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.goals.push(action.payload)
+            })
+            // if createGoal is rejected, get parameters state and action
+            // change flags and return the message payload to the createGoal function inside 'catch'
+            .addCase(createGoal.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message(action.payload)
+            })
     }
 })
 

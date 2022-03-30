@@ -13,7 +13,7 @@ const initialState = {
     user: null,
     isError: false,
     isSuccess: false,
-    isLoding: false,
+    isLoading: false,
     message: ''
 }
 
@@ -97,7 +97,7 @@ export const authSlice = createSlice({
                 state.isSuccess = true
                 state.user = action.payload
             })
-            // if register is fulfilled, get parameters state and action
+            // if register is rejected, get parameters state and action
             // change flags and return the message payload to the register function inside 'catch'
             // change the user state to null
             .addCase(register.rejected, (state, action) => {
