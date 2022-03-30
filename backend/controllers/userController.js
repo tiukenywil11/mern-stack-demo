@@ -95,16 +95,22 @@ const loginUser = asyncHandler(
 const getMe = asyncHandler(
     async (req, res) => {
 
-        // destructure id, name, and email
+        /* removed because this was already called in authMiddleware.js protect function
+        -- destructure id, name, and email
         const { _id, name, email } = await User.findById(req.user.id);
+        
 
-        // return logged in user's info
-        // uses the id embedded in the middleware to return user info
+        -- return logged in user's info
+        -- uses the id embedded in the middleware to return user info
         res.status(200).json({
             id: _id,
             name,
             email,
         })
+        */
+
+        // req.user will be provided by the auth middleware's protect function
+        req.status(200).json(req.user);
 
     }
 )

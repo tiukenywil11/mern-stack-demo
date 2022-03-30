@@ -66,11 +66,13 @@ const updateGoal = asyncHandler (
             throw new Error('Goal not found')
         }
 
-        // get logged in user details
+        /* removed because this was already called in authMiddleware.js protect function
+           replace all user to req.user provided by authMiddleware
+        -- get logged in user details
         const user = await User.findById(req.user.id)
+        */
 
-        // check if user exists
-        if(!user) {
+        if(!req.user){
             res.status(401)
             throw new Error('User not found')
         }
@@ -78,7 +80,7 @@ const updateGoal = asyncHandler (
         // check if user is authorized to update
         // goal.user is the user attached to the goal in the database
         // user.id is the logged in user
-        if(goal.user.toString() !== user.id) {
+        if(goal.user.toString() !== req.user.id) {
             res.status(401)
             throw new Error('User not authorized')
         }
@@ -104,6 +106,7 @@ const deleteGoal = asyncHandler (
     async (req, res) => {
 
                 // get single goal using id
+                // req.params gets the parameter from the url
                 const goal = await Goal.findById(req.params.id)
 
                 // create conditional to check if goal exists in mongodb
@@ -112,11 +115,14 @@ const deleteGoal = asyncHandler (
                     throw new Error('Goal not found')
                 }
         
-                // get logged in user details
+                /* removed because this was already called in authMiddleware.js protect function
+                replace all user to req.user provided by authMiddleware
+                -- get logged in user details
                 const user = await User.findById(req.user.id)
+                */
 
                 // check if user exists
-                if(!user) {
+                if(!req.user) {
                     res.status(401)
                     throw new Error('User not found')
                 }
@@ -124,7 +130,7 @@ const deleteGoal = asyncHandler (
                 // check if user is authorized to delete
                 // goal.user is the user attached to the goal in the database
                 // user.id is the logged in user
-                if(goal.user.toString() !== user.id) {
+                if(goal.user.toString() !== req.user.id) {
                     res.status(401)
                     throw new Error('User not authorized')
                 }
