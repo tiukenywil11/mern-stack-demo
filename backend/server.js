@@ -1,5 +1,7 @@
 // server.js is the entrypoint to the js server
 
+// initialize path
+const path = require('path');
 // initialize expressjs: backend framework
 const express = require('express');
 // initialize colors: adds colors to log
@@ -9,7 +11,7 @@ const dotenv = require('dotenv').config();
 // import errorHandler, from errorMiddleware
 const { errorHandler } = require('./middleware/errorMiddleware');
 // import db.js to connect to mongodb
-const connectDB = require('./config/db')
+const connectDB = require('./config/db');
 // initialize port to use the environment variable PORT, or defauts to 5000
 const port = process.env.PORT || 5000;
 
@@ -35,6 +37,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/goals', require('./routes/goalRoutes'));
 // use userRoutes.js on server.js
 app.use('/api/users', require('./routes/userRoutes'));
+
+/* 
+-- serve to frontend after running 'npm run build' on the front end, if node environment is 'production'
+if(process.env.NODE_ENV === 'production') {
+    -- use static files that is build on frontend
+    app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+    -- use '*' to indicate all for the first argument, and the second argument should point to the static 'index.html'
+    app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')));
+} else {
+    -- in case it's not production, send an error message
+    app.get('/', (req, res) => res.send('Please set to production'));
+}
+*/
 
 // add middleware to handle errors
 app.use(errorHandler);
