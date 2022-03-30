@@ -8,6 +8,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import GoalForm from '../components/GoalForm'
 // import spinner component
 import Spinner from '../components/Spinner'
+// import goal item component
+import GoalItem from '../components/GoalItem'
 // import from authSlice.js
 import { getGoals, reset } from '../features/goals/goalSlice.js'
 
@@ -66,6 +68,7 @@ function Dashboard() {
   return (
     <>
     <section className='heading'>
+
       <h1> 
         Welcome {
           // if user exist, show user's name
@@ -73,8 +76,32 @@ function Dashboard() {
         }
       </h1>
       <p> Goal Dashboard </p>
-      <GoalForm/>
+
     </section>
+
+    <GoalForm/>
+
+    <section className='content'>
+      { // checks if there are goals
+        // if there are goals, create a map function that displays GoalItem components with the list of id
+        // if not display message
+        goals.length > 0 ? (
+          <div className='goals'>
+            {
+              // use map and return an object by using () instead of {}
+              goals.map((goal) => (
+                <GoalItem 
+                  key={goal._id} 
+                  goal={goal}/>
+              )
+            )}
+          </div>
+        ) : (
+          <h3> You have not set any goals </h3>
+        )
+      }
+    </section>
+
     </>
   )
 }
