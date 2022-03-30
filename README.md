@@ -30,4 +30,7 @@ Added the following frontend ReactJS pages.
 - http://localhost:3000/register : Navigates to the register form
 - http://localhost:3000/login : Navigates to the login form
 
-## Part 4: [In Progress]
+## Part 4: ReactJS functions for goals CRUD
+Fixed the following URL functionality
+
+- http://localhost:3000 : Added goal form, and restricted access if user is not logged in
