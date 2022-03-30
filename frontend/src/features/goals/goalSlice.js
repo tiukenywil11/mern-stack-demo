@@ -38,6 +38,7 @@ export const createGoal  = createAsyncThunk('goals/create',
         }
     }
 )
+
 // create an async thunk function to get all goals
 export const getGoals  = createAsyncThunk('goals/getAll', 
     // nothing to pass but the thunkAPI, so pass an underscore for the first argument
@@ -48,6 +49,31 @@ export const getGoals  = createAsyncThunk('goals/getAll',
             const token = thunkAPI.getState().auth.user.token
             // return a function from authService
             return await goalService.getGoals(token)
+        } catch (error) {
+            
+            // returns a message upon error, checks all location if message exists, or if only exist in error.message, or on error
+            const message = 
+            (error.response && 
+                error.response.data && 
+                error.response.data.message) ||
+            error.message || 
+            error.toString()
+                return thunkAPI.rejectWithValue(message);
+    
+        }
+    }
+)
+
+// create an async thunk function to delete user goal
+export const deleteGoal  = createAsyncThunk('goals/delete',
+    // pass the parameter id only, because that's the only one needed to delete
+    async (id, thunkAPI) => {
+        try {
+            // use thunkAPI to get the state of auth and the valid authentication token
+            // this is added because delete goal is a protected API, and requires an authentication token
+            const token = thunkAPI.getState().auth.user.token
+            // return a function from authService
+            return await goalService.deleteGoal(id, token)
         } catch (error) {
             
             // returns a message upon error, checks all location if message exists, or if only exist in error.message, or on error
@@ -105,6 +131,26 @@ export const goalSlice = createSlice({
             // if getGoals is rejected, get parameters state and action
             // change flags and return the message payload to the getGoals function inside 'catch'
             .addCase(getGoals.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            // if deleteGoal is pending, change is loading state to true
+            .addCase(deleteGoal.pending, (state) => {
+                state.isLoading = true
+            })
+            // if deleteGoal is fulfilled, get parameters state and action
+            // change flags and use higher order function filter to the existing array to return a new array with deleted entry           
+            .addCase(deleteGoal.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.goals = state.goals.filter(
+                    (goal) => goal._id !== action.payload.id
+                )
+            })
+            // if deleteGoal is rejected, get parameters state and action
+            // change flags and return the message payload to the deleteGoal function inside 'catch'
+            .addCase(deleteGoal.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload

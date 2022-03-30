@@ -42,9 +42,29 @@ const getGoals = async (token) => {
 
 }
 
+// function to delete goals via http call
+const deleteGoal = async (goalID, token) => {
+
+    // create a config variable, to pass bearer token to the header
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    // create variable to keep the response from http request
+    // passing goal data, and authorization token
+    const response = await axios.delete(API_URL + goalID, config)
+
+    // return data from http request
+    return response.data;
+
+}
+
 const goalService = {
     createGoal,
     getGoals,
+    deleteGoal,
 }
 
 // export goalService class
