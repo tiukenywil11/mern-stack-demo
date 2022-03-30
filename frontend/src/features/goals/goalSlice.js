@@ -38,6 +38,30 @@ export const createGoal  = createAsyncThunk('goals/create',
         }
     }
 )
+// create an async thunk function to get all goals
+export const getGoals  = createAsyncThunk('goals/getAll', 
+    // nothing to pass but the thunkAPI, so pass an underscore for the first argument
+    async (_, thunkAPI) => {
+        try {
+            // use thunkAPI to get the state of auth and the valid authentication token
+            // this is added because create goal is a protected API, and requires an authentication token
+            const token = thunkAPI.getState().auth.user.token
+            // return a function from authService
+            return await goalService.getGoals(token)
+        } catch (error) {
+            
+            // returns a message upon error, checks all location if message exists, or if only exist in error.message, or on error
+            const message = 
+            (error.response && 
+                error.response.data && 
+                error.response.data.message) ||
+            error.message || 
+            error.toString()
+                return thunkAPI.rejectWithValue(message);
+    
+        }
+    }
+)
 
 // create redux slice, a collection of reducer logic and actions for a feature in the app.
 export const goalSlice = createSlice({
@@ -54,7 +78,7 @@ export const goalSlice = createSlice({
                 state.isLoading = true
             })
             // if createGoal is fulfilled, get parameters state and action
-            // change flags and return the user payload to the createGoal function inside 'try'            .addCase(createGoal.pending, (state) => {
+            // change flags and return the user payload to the createGoal function inside 'try'
             .addCase(createGoal.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
@@ -65,7 +89,25 @@ export const goalSlice = createSlice({
             .addCase(createGoal.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
-                state.message(action.payload)
+                state.message = action.payload
+            })
+            // if getGoals is pending, change is loading state to true
+            .addCase(getGoals.pending, (state) => {
+                state.isLoading = true
+            })
+            // if getGoals is fulfilled, get parameters state and action
+            // change flags and set the user payload to the goals inside 'try'            
+            .addCase(getGoals.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.goals = action.payload
+            })
+            // if getGoals is rejected, get parameters state and action
+            // change flags and return the message payload to the getGoals function inside 'catch'
+            .addCase(getGoals.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
             })
     }
 })
