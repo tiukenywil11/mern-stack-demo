@@ -3,7 +3,7 @@
 ## How to run 
 1. Deploy MongoDB database. Check 'database' directory for instructions on how to deploy db.
   
-2. run the following on root directory
+2. Run the following on root directory.
 ```code
 npm install
 npm run dev
