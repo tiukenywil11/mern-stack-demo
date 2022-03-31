@@ -38,7 +38,7 @@ docker exec -it <container_name> /bin/bash/
 # mongosh -u root -p example
 ```
 
-## Initialize mongodb database
+## Initialize mongodb database [Automated]
 1. Create database
 
 ```bash
@@ -49,6 +49,10 @@ use mernapp
 
 ```bash
 db.createCollection('goals')
+```
+
+```bash
+db.createCollection('users')
 ```
 
 3. Create admin user
@@ -67,7 +71,7 @@ db.createUser(
 
 ## Stop mongodb using the following command
 ```bash
-docker-compose up -d
+docker-compose down
 ```
 
 ## Clean container instances on local machine using the following command
